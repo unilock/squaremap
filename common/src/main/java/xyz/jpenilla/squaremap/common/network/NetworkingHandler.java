@@ -9,9 +9,9 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
+import io.netty.buffer.Unpooled;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -90,7 +90,7 @@ public final class NetworkingHandler {
             out.writeInt(mapWorld.config().ZOOM_EXTRA);
         }
 
-        out.writeUTF(player.level().dimension().location().toString());
+        out.writeUTF(player.getLevel().dimension().location().toString());
 
         send(player, out);
     }
@@ -113,7 +113,7 @@ public final class NetworkingHandler {
         out.writeInt(Constants.MAP_DATA);
         out.writeInt(Constants.PROTOCOL);
 
-        final @Nullable MapItemSavedData mapData = player.level().getMapData(MapItem.makeKey(id));
+        final @Nullable MapItemSavedData mapData = player.getLevel().getMapData(MapItem.makeKey(id));
         if (mapData == null) {
             out.writeInt(Constants.ERROR_NO_SUCH_MAP);
             out.writeInt(id);
@@ -136,8 +136,8 @@ public final class NetworkingHandler {
         out.writeInt(Constants.RESPONSE_SUCCESS);
         out.writeInt(id);
         out.writeByte(mapData.scale);
-        out.writeInt(mapData.centerX);
-        out.writeInt(mapData.centerZ);
+        out.writeInt(mapData.x);
+        out.writeInt(mapData.z);
         out.writeUTF(world.dimension().location().toString());
 
         return out;
@@ -153,26 +153,15 @@ public final class NetworkingHandler {
         out.writeInt(Constants.PROTOCOL);
         out.writeInt(Constants.RESPONSE_SUCCESS);
 
-        out.writeUTF(player.level().dimension().location().toString());
+        out.writeUTF(player.getLevel().dimension().location().toString());
 
         send(player, out);
     }
 
     private static void send(final ServerPlayer player, final ByteArrayDataOutput out) {
-        final ClientboundCustomPayloadPacket packet = new ClientboundCustomPayloadPacket(new SquaremapClientPayload(out));
-        player.connection.send(packet);
-    }
-
-    private record SquaremapClientPayload(ByteArrayDataOutput out) implements CustomPacketPayload {
-        @Override
-        public void write(final FriendlyByteBuf friendlyByteBuf) {
-            friendlyByteBuf.writeBytes(this.out.toByteArray());
-        }
-
-        @Override
-        public ResourceLocation id() {
-            return CHANNEL;
-        }
+        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeBytes(out.toByteArray());
+        player.connection.send(new ClientboundCustomPayloadPacket(CHANNEL, buf));
     }
 
     private static ByteArrayDataOutput out() {

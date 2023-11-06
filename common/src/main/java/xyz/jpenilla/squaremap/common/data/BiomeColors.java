@@ -12,7 +12,7 @@ import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.MaterialColor;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
@@ -64,7 +64,7 @@ public final class BiomeColors {
             color = this.grass(pos);
         } else if (FOLIAGE_COLOR_BLOCKS.contains(block)) {
             color = this.foliage(pos);
-        } else if (block.defaultMapColor() == MapColor.WATER) {
+        } else if (block.defaultMaterialColor() == MaterialColor.WATER) {
             int modColor = this.water(pos);
             color = Colors.mix(color, modColor, 0.8F);
         }

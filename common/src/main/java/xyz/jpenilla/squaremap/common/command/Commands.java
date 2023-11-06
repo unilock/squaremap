@@ -58,9 +58,7 @@ public final class Commands {
         this.injector = injector;
         this.commandManager = platformCommands.createCommandManager();
 
-        this.commandManager.commandSuggestionProcessor(new FilteringCommandSuggestionProcessor<>(
-            FilteringCommandSuggestionProcessor.Filter.<Commander>contains(true).andTrimBeforeLastSpace()
-        ));
+        this.commandManager.commandSuggestionProcessor(new FilteringCommandSuggestionProcessor<>());
 
         this.commandManager.registerCommandPreProcessor(preprocessContext -> {
             final CommandContext<Commander> commandContext = preprocessContext.getCommandContext();

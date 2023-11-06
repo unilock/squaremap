@@ -10,6 +10,12 @@ repositories {
       includeGroup("dev.onyxstudios.cardinal-components-api")
     }
   }
+
+  maven("https://oss.sonatype.org/content/repositories/snapshots") {
+    mavenContent {
+      includeGroup("me.lucko")
+    }
+  }
 }
 
 dependencies {
@@ -39,6 +45,9 @@ dependencies {
   include(libs.cardinalComponentsBase)
   modImplementation(libs.cardinalComponentsEntity)
   include(libs.cardinalComponentsEntity)
+
+  modImplementation("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
+  include("me.lucko:fabric-permissions-api:0.2-SNAPSHOT")
 }
 
 squaremapLoomPlatform.modInfoFilePath.set("fabric.mod.json")

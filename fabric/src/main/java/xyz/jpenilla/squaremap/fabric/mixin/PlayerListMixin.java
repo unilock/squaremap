@@ -18,7 +18,7 @@ abstract class PlayerListMixin {
         at = @At("HEAD")
     )
     void injectRespawnHead(ServerPlayer serverPlayer, boolean bl, CallbackInfoReturnable<ServerPlayer> cir) {
-        this.preRespawnLevel.set((ServerLevel) serverPlayer.level());
+        this.preRespawnLevel.set(serverPlayer.getLevel());
     }
 
     @Inject(
@@ -29,7 +29,7 @@ abstract class PlayerListMixin {
         final ServerLevel oldLevel = this.preRespawnLevel.get();
         this.preRespawnLevel.remove();
         final ServerPlayer player = cir.getReturnValue();
-        if (player.level() == oldLevel) {
+        if (player.getLevel() == oldLevel) {
             return;
         }
         ServerPlayerEvents.WORLD_CHANGED.invoker().worldChanged(player);

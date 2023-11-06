@@ -15,7 +15,6 @@ import java.util.function.Consumer;
 import java.util.jar.Manifest;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -125,7 +124,7 @@ public final class Util {
     }
 
     public static Registry<Biome> biomeRegistry(final RegistryAccess registryAccess) {
-        return registryAccess.registryOrThrow(Registries.BIOME);
+        return registryAccess.registryOrThrow(Registry.BIOME_REGISTRY);
     }
 
     public static @Nullable Manifest manifest(final Class<?> clazz) {

@@ -2,10 +2,10 @@ package xyz.jpenilla.squaremap.api;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.flattener.ComponentFlattener;
-import net.kyori.adventure.text.serializer.ComponentEncoder;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.jetbrains.annotations.ApiStatus;
+import xyz.jpenilla.squaremap.api.temporary.ComponentEncoder;
 
 /**
  * Safely encodes {@link Component Components} as HTML text.

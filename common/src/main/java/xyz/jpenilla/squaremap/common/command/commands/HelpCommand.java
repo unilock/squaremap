@@ -57,10 +57,10 @@ public final class HelpCommand extends SquaremapCommand {
     private static CommandArgument<Commander, String> createHelpQueryArgument(final Commands commands) {
         final var commandHelpHandler = commands.commandManager().createCommandHelpHandler();
         final BiFunction<CommandContext<Commander>, String, List<String>> suggestions = (context, input) ->
-            commandHelpHandler.queryRootIndex(context.getSender()).getEntries().stream()
+            commandHelpHandler.getAllCommands().stream()
                 .map(CommandHelpHandler.VerboseHelpEntry::getSyntaxString)
                 .toList();
-        return StringArgument.<Commander>builder("query")
+        return StringArgument.<Commander>newBuilder("query")
             .greedy()
             .withSuggestionsProvider(suggestions)
             .asOptional()

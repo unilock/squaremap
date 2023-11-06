@@ -6,8 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -29,7 +29,7 @@ public abstract class AbstractFluidColorExporter {
 
     public final void export(final RegistryAccess registryAccess) {
         final Map<String, String> map = new HashMap<>();
-        registryAccess.registryOrThrow(Registries.BLOCK).holders().forEach(holder -> {
+        registryAccess.registryOrThrow(Registry.BLOCK_REGISTRY).holders().forEach(holder -> {
             final Block block = holder.value();
             final @Nullable Fluid fluid = this.fluid(block);
             if (fluid == null

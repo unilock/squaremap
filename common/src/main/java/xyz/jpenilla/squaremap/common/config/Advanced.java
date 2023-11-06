@@ -25,11 +25,6 @@ public final class Advanced extends AbstractConfig {
                 final Map<String, String> foliageMap = foliageNode.get(type, new HashMap<>());
                 foliageMap.put("minecraft:mangrove_swamp", "#6f9623");
                 foliageNode.set(type, foliageMap);
-
-                final ConfigurationNode blocksNode = node.node("blocks");
-                final Map<String, String> blocksMap = blocksNode.get(type, new HashMap<>());
-                blocksMap.put("minecraft:pink_petals", "#FFB4DB");
-                blocksNode.set(type, blocksMap);
                 return null;
             })
             .build();
